@@ -9,7 +9,9 @@
     "start": "node build/server.js",
     "build": "tsup src --out-dir build",
     "prisma:migrate": "npx prisma migrate dev",
-    "prisma:studio": "npx prisma studio"
+    "prisma:studio": "npx prisma studio",
+    "docker:up": "docker compose up -d",
+    "docker:stop": "docker compose stop"
   },
   "keywords": [],
   "author": "",
