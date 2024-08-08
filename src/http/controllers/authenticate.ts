@@ -17,8 +17,8 @@ export async function authenticate(
   const { email, password } = authenticateBodySchema.parse(request.body)
 
   try {
-    const userRepository = new PrismaUsersRepository()
-    const authenticateUseCase = new AuthenticateUserCase(userRepository)
+    const usersRepository = new PrismaUsersRepository()
+    const authenticateUseCase = new AuthenticateUserCase(usersRepository)
 
     await authenticateUseCase.execute({
       email,
@@ -26,9 +26,8 @@ export async function authenticate(
     })
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
-      return reply.send(400).send({ message: err.message })
+      return reply.status(400).send({ message: err.message })
     }
-
     throw err
   }
 
