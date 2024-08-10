@@ -22,8 +22,8 @@ describe('Authenticate Use Case', () => {
       title: 'Javascript Gym',
       description: '',
       phone: '',
-      latitude: new Prisma.Decimal(0),
-      longitude: new Prisma.Decimal(0),
+      latitude: new Prisma.Decimal(-21.7481216),
+      longitude: new Prisma.Decimal(-41.3466624),
     })
 
     vi.useFakeTimers()
@@ -37,8 +37,8 @@ describe('Authenticate Use Case', () => {
     const { checkIn } = await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 0,
-      userLongitude: 0,
+      userLatitude: -21.7481216,
+      userLongitude: -41.3466624,
     })
 
     expect(checkIn.id).toEqual(expect.any(String))
@@ -50,16 +50,16 @@ describe('Authenticate Use Case', () => {
     await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 0,
-      userLongitude: 0,
+      userLatitude: -21.7481216,
+      userLongitude: -41.3466624,
     })
 
     await expect(() =>
       sut.execute({
         gymId: 'gym-01',
         userId: 'user-01',
-        userLatitude: 0,
-        userLongitude: 0,
+        userLatitude: -21.7481216,
+        userLongitude: -41.3466624,
       }),
     ).rejects.toBeInstanceOf(Error)
   })
@@ -70,8 +70,8 @@ describe('Authenticate Use Case', () => {
     await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 0,
-      userLongitude: 0,
+      userLatitude: -21.7481216,
+      userLongitude: -41.3466624,
     })
 
     vi.setSystemTime(new Date(2024, 0, 21, 8, 0, 0))
@@ -79,10 +79,30 @@ describe('Authenticate Use Case', () => {
     const { checkIn } = await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 0,
-      userLongitude: 0,
+      userLatitude: -21.7481216,
+      userLongitude: -41.3466624,
     })
 
     expect(checkIn.id).toEqual(expect.any(String))
+  })
+
+  it('should not be able to check on distant gym', async () => {
+    gymsRepository.items.push({
+      id: 'gym-02',
+      title: 'Javascript Gym 2',
+      description: '',
+      phone: '',
+      latitude: new Prisma.Decimal(-21.7300242),
+      longitude: new Prisma.Decimal(-41.3001061),
+    })
+
+    await expect(() =>
+      sut.execute({
+        gymId: 'gym-02',
+        userId: 'user-01',
+        userLatitude: -21.7481216,
+        userLongitude: -41.3466624,
+      }),
+    ).rejects.toBeInstanceOf(Error)
   })
 })

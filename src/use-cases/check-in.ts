@@ -3,6 +3,7 @@ import { CheckIn } from '@prisma/client'
 
 import { CheckInsRepository } from '@/repositories/check-ins-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { getDistanceBeetwenCoordinates } from '@/utils/get-distance-beetwen-coordinates'
 
 interface CheckInUserCaseRequest {
   userId: string
@@ -24,6 +25,8 @@ export class CheckInUserCase {
   async execute({
     userId,
     gymId,
+    userLatitude,
+    userLongitude,
   }: CheckInUserCaseRequest): Promise<CheckInUserCaseResponse> {
     const gym = await this.gymsRepository.findById(gymId)
 
@@ -31,7 +34,16 @@ export class CheckInUserCase {
       throw new ResourceNotFoundError()
     }
 
-    // Calculate distance beetwen user and gym
+    const distance = getDistanceBeetwenCoordinates(
+      { latitude: userLatitude, longitude: userLongitude },
+      { latitude: Number(gym.latitude), longitude: Number(gym.longitude) },
+    )
+
+    const MAX_DISTANCE_IN_KILOMETERS = 0.1
+
+    if (distance > MAX_DISTANCE_IN_KILOMETERS) {
+      throw new Error()
+    }
 
     const checkInOnSomeday = await this.checkInsRepository.findByUserIdOnDate(
       userId,
