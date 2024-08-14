@@ -32,18 +32,4 @@ describe('Create Gym Use Case', () => {
 
     expect(gym.id).toEqual(expect.any(String))
   })
-
-  it('should not able to register with same title', async () => {
-    const newGym = {
-      title: 'gym-1',
-      description: null,
-      phone: null,
-      latitude: -21.7481216,
-      longitude: -41.3466624,
-    }
-
-    await sut.execute(newGym)
-
-    // await expect(() => sut.execute(newGym)).rejects.toBeInstanceOf(Error)
-  })
 })
