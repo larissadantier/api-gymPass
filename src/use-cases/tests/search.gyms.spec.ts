@@ -12,28 +12,26 @@ describe('Search Gym Use Case', () => {
     sut = new SearchGymUseCase(gymsRepository)
   })
 
-  it('should be to register gym', async () => {
+  it('should be to search with title', async () => {
     await gymsRepository.create({
       title: 'TypeScript Gym',
       latitude: -21.7481216,
       longitude: -41.3466624,
     })
 
-    await gymsRepository.create(({
+    await gymsRepository.create({
       title: 'Javascript Gym',
       latitude: -21.7481216,
       longitude: -41.3466624,
-    }))
+    })
 
     const { gyms } = await sut.execute({
       query: 'TypeScript Gym',
-      page: 1
+      page: 1,
     })
 
     expect(gyms).toHaveLength(1)
-    expect(gyms).toEqual([
-      expect.objectContaining({ title: 'TypeScript Gym' })
-    ])
+    expect(gyms).toEqual([expect.objectContaining({ title: 'TypeScript Gym' })])
   })
 
   it('should be able to fetch paginated gyms search', async () => {
@@ -49,7 +47,7 @@ describe('Search Gym Use Case', () => {
 
     const { gyms } = await sut.execute({
       query: 'TypeScript',
-      page: 2
+      page: 2,
     })
 
     expect(gyms).toHaveLength(2)
