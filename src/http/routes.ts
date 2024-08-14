@@ -8,5 +8,5 @@ export async function appRoutes(app: FastifyInstance) {
 
   app.post('/sessions', authenticate)
 
-  app.get('/profile', profile)
+  app.get('/profile/:id', profile)
 }
