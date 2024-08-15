@@ -1,10 +1,9 @@
-import { describe, expect, it, beforeEach } from "vitest";
-import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository';
-import { GetUserMetricsUseCase } from './../get-user-metrics';
+import { describe, expect, it, beforeEach } from 'vitest'
+import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository'
+import { GetUserMetricsUseCase } from './../get-user-metrics'
 
 let checkInsRepository: InMemoryCheckInsRepository
 let sut: GetUserMetricsUseCase
-
 
 describe('Get User Metrics Use Case', () => {
   beforeEach(() => {
