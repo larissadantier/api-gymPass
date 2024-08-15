@@ -3,7 +3,7 @@ import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-reposi
 
 export function makeGetUserProfileUseCase() {
   const usersRepository = new PrismaUsersRepository()
-  const getUserProfileUseCase = new GetUserProfileUseCase(usersRepository)
+  const useCase = new GetUserProfileUseCase(usersRepository)
 
-  return getUserProfileUseCase
+  return useCase
 }
