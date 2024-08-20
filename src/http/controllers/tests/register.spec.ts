@@ -1,3 +1,24 @@
-import { test } from 'vitest'
+import request from 'supertest'
+import { beforeAll, afterAll, describe, expect, it } from 'vitest'
 
-test('Register', () => {})
+import { app } from '@/app'
+
+describe('Register e2e', () => {
+  beforeAll(async () => {
+    await app.ready()
+  })
+
+  afterAll(async () => {
+    await app.close()
+  })
+
+  it('should be able to register', async () => {
+    const res = await request(app.server).post('/users').send({
+      name: 'Larissa Dantier',
+      email: 'lari@gmail.com',
+      password: 'Lari123',
+    })
+
+    expect(res.statusCode).toEqual(201)
+  })
+})
