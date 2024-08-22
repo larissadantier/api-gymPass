@@ -16,7 +16,7 @@ describe('Search Gym e2e', () => {
   it('should be able search a gyms by title', async () => {
     const { token } = await createAndAuthenticateUser(app)
 
-    const response = await request(app.server)
+    await request(app.server)
       .post('/gyms')
       .set('Authorization', `Bearer ${token}`)
       .send({
@@ -27,6 +27,21 @@ describe('Search Gym e2e', () => {
         longitude: -41.3466624,
       })
 
+    const response = await request(app.server)
+      .get('/gyms/search')
+      .query({
+        q: 'Typescript Gym',
+        page: 1,
+      })
+      .set('Authorization', `Bearer ${token}`)
+      .send()
+
     expect(response.statusCode).toEqual(201)
+    expect(response.body.gyms).toHaveLength(1)
+    expect(response.body.gyms).toEqual([
+      expect.objectContaining({
+        title: 'Typescript Gym',
+      }),
+    ])
   })
 })
