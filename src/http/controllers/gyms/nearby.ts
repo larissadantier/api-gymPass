@@ -6,10 +6,10 @@ import { makeNearbyGymUseCase } from '@/use-cases/factories/make-fetch-nearby-gy
 
 export const nearby = async (request: FastifyRequest, reply: FastifyReply) => {
   const nearbyBodySchema = z.object({
-    latitude: z.number().refine((value) => {
+    latitude: z.coerce.number().refine((value) => {
       return Math.abs(value) <= 90
     }),
-    longitude: z.number().refine((value) => {
+    longitude: z.coerce.number().refine((value) => {
       return Math.abs(value) <= 180
     }),
   })
