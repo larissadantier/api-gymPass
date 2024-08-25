@@ -14,7 +14,7 @@ describe('Nearby Gym e2e', () => {
   })
 
   it('should be able list nearby gyms', async () => {
-    const { token } = await createAndAuthenticateUser(app)
+    const { token } = await createAndAuthenticateUser(app, true)
 
     await request(app.server)
       .post('/gyms')
@@ -41,7 +41,7 @@ describe('Nearby Gym e2e', () => {
     const response = await request(app.server)
       .get('/gyms/nearby')
       .query({
-        latitude: -20.357830,
+        latitude: -20.35783,
         longitude: -40.301028,
       })
       .set('Authorization', `Bearer ${token}`)
